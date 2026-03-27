@@ -22,6 +22,11 @@ jobs:
 
       - name: Build with Buildozer
         run: |
+          # هذا السطر يضمن أننا في المجلد الذي يحتوي على الكود
+          if [ ! -f buildozer.spec ]; then
+            echo "Error: buildozer.spec not found! Checking subdirectories..."
+            cd $(dirname $(find . -name "buildozer.spec" | head -n 1)) || exit 1
+          fi
           yes | buildozer android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
