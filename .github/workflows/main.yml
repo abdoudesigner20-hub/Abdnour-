@@ -8,25 +8,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get Date
-        shell: bash
-        run: |
-          echo "date=$(date +'%Y-%m-%d--%H-%M-%S')" >> $GITHUB_OUTPUT
-        id: display_date
-
-      # استخدام نسخة مستقرة ومحدثة من buildozer-action
       - name: Build with Buildozer
-        uses: ArtemSerebrennkov/buildozer-action@v1.6.1
+        uses: Enki-as/buildozer-action@v1
         id: buildozer
         with:
-          buildozer_version: master
           command: buildozer android debug
-          repository_read_token: ${{ secrets.GITHUB_TOKEN }}
+          buildozer_version: master
 
-      # تحديث نسخة upload-artifact إلى v4 لحل مشكلة deprecation
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: CurrencyConverter-${{ steps.display_date.outputs.date }}
+          name: CurrencyConverter-APK
           path: bin/*.apk
           
